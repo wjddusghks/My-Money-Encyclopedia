@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>내돈백과 | 지원금·세금·월급 검색 허브</title>
+  <meta
+    name="description"
+    content="지원금, 세금, 월급, 실업급여, 육아휴직급여까지 한 번에 찾는 생활돈 검색 허브"
+  >
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="page-shell">
+    <header class="hero">
+      <div class="hero__top">
+        <p class="hero__eyebrow">생활돈 검색 허브</p>
+        <span class="hero__badge">MVP</span>
+      </div>
+      <div class="hero__content">
+        <div class="hero__copy">
+          <h1>내돈백과</h1>
+          <p class="hero__lead">
+            지원금, 세금, 월급, 실업급여를 한 번에 찾고
+            바로 계산까지 이어지는 한국형 생활돈 검색 사이트.
+          </p>
+          <form class="search-bar" id="search-form">
+            <label class="sr-only" for="search-input">검색어</label>
+            <input
+              id="search-input"
+              name="query"
+              type="search"
+              placeholder="예: 근로장려금, 주휴수당, 육아휴직급여"
+              autocomplete="off"
+            >
+            <button type="submit">검색</button>
+          </form>
+          <div class="quick-tags" id="quick-tags"></div>
+          <div class="hero__stats">
+            <article>
+              <strong id="resource-count">0</strong>
+              <span>핵심 주제</span>
+            </article>
+            <article>
+              <strong>6개</strong>
+              <span>주요 카테고리</span>
+            </article>
+            <article>
+              <strong>2개</strong>
+              <span>간편 계산기</span>
+            </article>
+          </div>
+        </div>
+        <aside class="hero__panel">
+          <p class="panel__eyebrow">오늘 많이 찾는 질문</p>
+          <ul class="trend-list">
+            <li>실업급여 받으려면 몇 개월 근무해야 하나요?</li>
+            <li>근로장려금 신청 기간은 언제인가요?</li>
+            <li>주휴수당은 주 15시간부터 나오나요?</li>
+            <li>퇴직금은 몇 년 일해야 생기나요?</li>
+          </ul>
+          <p class="panel__note">
+            현재 버전은 검색 허브 MVP입니다. 실제 신청 전에는 카드마다 연결된 공식 사이트를 꼭 확인하세요.
+          </p>
+        </aside>
+      </div>
+    </header>
+
+    <main>
+      <section class="section">
+        <div class="section__heading">
+          <div>
+            <p class="section__eyebrow">빠른 이동</p>
+            <h2>카테고리별로 바로 찾기</h2>
+          </div>
+          <p class="section__caption">
+            광고형 사이트로 성장시키기 좋은 상위 수요 주제들부터 모았습니다.
+          </p>
+        </div>
+        <div class="category-filters" id="category-filters"></div>
+      </section>
+
+      <section class="section feature-grid">
+        <article class="feature-card feature-card--spotlight">
+          <p class="section__eyebrow">수익화 포인트</p>
+          <h2>검색 의도 바로 아래에 계산과 공식 링크</h2>
+          <p>
+            내돈백과는 정보 요약만 보여주는 페이지가 아니라,
+            검색어를 입력하면 요약, 자격 포인트, 준비 서류, 공식 사이트 이동까지 한 번에 이어지는 구조를 목표로 합니다.
+          </p>
+          <ul class="check-list">
+            <li>광고 슬롯을 넣기 쉬운 정보형 레이아웃</li>
+            <li>반복 방문을 만드는 계산기와 체크리스트</li>
+            <li>지원금, 세금, 노동, 청년 혜택으로 확장 가능</li>
+          </ul>
+        </article>
+        <article class="feature-card">
+          <p class="section__eyebrow">초기 키워드</p>
+          <h2>추천 검색 클러스터</h2>
+          <div class="cluster-list">
+            <span>실업급여</span>
+            <span>근로장려금</span>
+            <span>주휴수당</span>
+            <span>퇴직금</span>
+            <span>육아휴직급여</span>
+            <span>국민취업지원제도</span>
+            <span>연말정산</span>
+            <span>종합소득세</span>
+          </div>
+        </article>
+      </section>
+
+      <section class="section calculators">
+        <div class="section__heading">
+          <div>
+            <p class="section__eyebrow">간편 계산</p>
+            <h2>탐색형 계산기</h2>
+          </div>
+          <p class="section__caption">
+            빠른 감을 잡는 용도입니다. 실제 금액은 근로계약, 평균임금, 법 개정에 따라 달라질 수 있습니다.
+          </p>
+        </div>
+        <div class="calculator-grid">
+          <article class="calc-card">
+            <h3>주휴수당 간편 계산</h3>
+            <form id="holiday-form" class="calc-form">
+              <label>
+                시급
+                <input type="number" id="hourly-wage" min="0" step="10" value="10030">
+              </label>
+              <label>
+                주 근무일 수
+                <input type="number" id="working-days" min="1" max="7" step="1" value="5">
+              </label>
+              <label>
+                하루 근무시간
+                <input type="number" id="daily-hours" min="1" max="24" step="0.5" value="4">
+              </label>
+              <button type="submit">계산하기</button>
+            </form>
+            <div class="calc-result" id="holiday-result">
+              주휴수당 계산 결과가 여기에 표시됩니다.
+            </div>
+          </article>
+
+          <article class="calc-card">
+            <h3>퇴직금 간편 추정</h3>
+            <form id="severance-form" class="calc-form">
+              <label>
+                월 평균임금
+                <input type="number" id="monthly-pay" min="0" step="10000" value="2500000">
+              </label>
+              <label>
+                근속 개월 수
+                <input type="number" id="service-months" min="1" step="1" value="24">
+              </label>
+              <button type="submit">추정하기</button>
+            </form>
+            <div class="calc-result" id="severance-result">
+              퇴직금 추정 결과가 여기에 표시됩니다.
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section search-results">
+        <div class="section__heading">
+          <div>
+            <p class="section__eyebrow">검색 결과</p>
+            <h2>지금 찾아볼 수 있는 핵심 주제</h2>
+          </div>
+          <p class="section__caption" id="results-caption">
+            전체 주제를 보여주고 있습니다.
+          </p>
+        </div>
+        <div class="results-layout">
+          <div class="results-list" id="results-list"></div>
+          <aside class="source-panel">
+            <h3>공식 사이트 바로가기</h3>
+            <ul class="source-links">
+              <li><a href="https://www.work24.go.kr" target="_blank" rel="noreferrer">고용24</a></li>
+              <li><a href="https://www.ei.go.kr" target="_blank" rel="noreferrer">고용보험</a></li>
+              <li><a href="https://www.nts.go.kr" target="_blank" rel="noreferrer">국세청</a></li>
+              <li><a href="https://www.moel.go.kr" target="_blank" rel="noreferrer">고용노동부</a></li>
+              <li><a href="https://www.easylaw.go.kr" target="_blank" rel="noreferrer">찾기쉬운 생활법령정보</a></li>
+              <li><a href="https://www.nhis.or.kr" target="_blank" rel="noreferrer">국민건강보험</a></li>
+            </ul>
+            <div class="source-panel__box">
+              <strong>광고 위치 후보</strong>
+              <p>검색 결과 3번째 카드 이후, 계산기 하단, 카테고리 목록 하단</p>
+            </div>
+          </aside>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>내돈백과 MVP · 생활형 검색 트래픽을 모아 광고와 도구형 수익화를 함께 노리는 구조</p>
+    </footer>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
+
