@@ -3,416 +3,307 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>내돈백과 | 지원금과 월급 계산을 쉽게 찾는 생활형 검색 허브</title>
+  <title>내돈백과 | 돈 문제를 빠르게 찾는 계산 허브</title>
   <meta
     name="description"
-    content="지원금, 월급, 세금, 육아휴직, 실업급여 정보를 검색하고 쉬운 입력 UX로 바로 계산까지 이어지는 생활형 검색 허브"
+    content="월급, 실업급여, 퇴직금, 육아휴직, 출산휴가 같은 돈 문제를 검색하고 필요한 계산기로 바로 이동하는 생활형 계산 허브"
   >
   <link rel="stylesheet" href="styles.css">
 </head>
-<body>
-  <div class="page-shell">
-    <header class="hero" id="top">
-      <div class="hero__top">
-        <div>
-          <p class="hero__eyebrow">생활형 검색 + 계산 허브</p>
-          <h1>내돈백과</h1>
-        </div>
-        <nav class="hero__nav">
-          <a href="#profile-section">빠른 입력</a>
-          <a href="#calculator-section">계산기</a>
-          <a href="#results-section">주제 찾기</a>
-          <a href="#support-section">공식 포털</a>
-        </nav>
-      </div>
+<body class="home">
+  <div class="app-shell" id="top">
+    <header class="topbar">
+      <a class="brand" href="index.html">
+        <span class="brand__mark">M</span>
+        <span class="brand__text">
+          <strong>내돈백과</strong>
+          <small>Money Encyclopedia</small>
+        </span>
+      </a>
 
-      <div class="hero__content">
-        <div class="hero__copy">
-          <p class="hero__lead">
-            자주 쓰는 값은 한 번만 넣고 여러 계산기에 같이 반영되도록 설계했습니다. 지원금 찾기, 월급 계산,
-            휴직 급여 확인, 공식 링크 이동까지 한 흐름으로 이어집니다.
-          </p>
+      <nav class="topbar__nav">
+        <a href="salary.html">월급</a>
+        <a href="unemployment.html">실업급여</a>
+        <a href="severance.html">퇴직 정산</a>
+        <a href="family.html">가족 급여</a>
+        <a href="overtime.html">수당 계산</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero-card hero-card--home">
+        <div class="hero-copy">
+          <span class="eyebrow">Calculator Hub</span>
+          <h1>무엇을 계산할지<br>먼저 고르세요</h1>
+          <p class="hero-card__lead">검색하거나 지금 상황에 맞는 카드 하나만 누르면 바로 시작할 수 있게 정리했습니다.</p>
 
           <form class="search-bar" id="search-form">
             <label class="sr-only" for="search-input">검색어</label>
             <input
               id="search-input"
-              name="query"
               type="search"
-              placeholder="예: 실업급여, 근로장려금, 주휴수당, 출산휴가급여"
+              placeholder="예: 실업급여, 퇴직금, 주휴수당, 육아휴직급여"
               autocomplete="off"
             >
-            <button type="submit">찾기</button>
+            <button type="submit">검색</button>
           </form>
 
           <div class="suggestion-list" id="search-suggestions"></div>
-          <div class="quick-tags" id="quick-tags"></div>
-          <div class="intent-grid" id="intent-grid">
-            <button type="button" class="intent-card" data-intent="take-home">
-              <strong>월급이 궁금해요</strong>
-              <span>실수령액, 4대보험, 시급 변환</span>
-            </button>
-            <button type="button" class="intent-card" data-intent="quit">
-              <strong>퇴사 준비 중이에요</strong>
+
+          <div class="hero-meta-row">
+            <div class="chip-row" id="quick-tags"></div>
+            <a class="text-link" href="#calculators-section">전체 계산기 보기</a>
+          </div>
+        </div>
+
+        <div class="hero-flow">
+          <div class="intent-grid">
+            <a class="intent-card" href="salary.html">
+              <span class="intent-card__kicker">월급</span>
+              <strong>실수령액이 궁금해요</strong>
+              <span>월급, 4대보험, 최저임금</span>
+            </a>
+            <a class="intent-card" href="severance.html">
+              <span class="intent-card__kicker">퇴사</span>
+              <strong>퇴직 정산이 궁금해요</strong>
               <span>퇴직금, 연차수당, 휴업수당</span>
-            </button>
-            <button type="button" class="intent-card" data-intent="family">
-              <strong>육아·출산이 궁금해요</strong>
-              <span>육아휴직, 출산휴가, 배우자 휴가</span>
-            </button>
-            <button type="button" class="intent-card" data-intent="aid">
-              <strong>지원금을 찾고 싶어요</strong>
+            </a>
+            <a class="intent-card" href="family.html">
+              <span class="intent-card__kicker">가족</span>
+              <strong>육아·출산 급여를 볼래요</strong>
+              <span>육아휴직, 출산휴가, 배우자 출산휴가</span>
+            </a>
+            <button type="button" class="intent-card intent-card--button" data-intent-search="실업급여">
+              <span class="intent-card__kicker">지원금</span>
+              <strong>지원금부터 찾고 싶어요</strong>
               <span>실업급여, 근로장려금, 청년정책</span>
             </button>
           </div>
 
-          <div class="hero__stats">
-            <article>
-              <strong id="resource-count">0</strong>
-              <span>검색 주제</span>
-            </article>
-            <article>
-              <strong id="calculator-count">0</strong>
-              <span>라이브 계산기</span>
-            </article>
-            <article>
-              <strong id="bookmark-count">0</strong>
-              <span>즐겨찾기</span>
-            </article>
-            <article>
-              <strong>만원 입력</strong>
-              <span>쉬운 숫자 UX</span>
-            </article>
+          <div class="hero-mini-grid">
+            <a class="hero-mini-card" href="salary.html">
+              <span class="hero-mini-card__label">대표 계산기</span>
+              <strong>월급 실수령액</strong>
+              <p>월급과 비과세 수당만 넣고 빠르게 확인</p>
+            </a>
+            <a class="hero-mini-card" href="unemployment.html">
+              <span class="hero-mini-card__label">대표 계산기</span>
+              <strong>실업급여 자격 확인</strong>
+              <p>가입 개월과 이직 사유 기준으로 먼저 체크</p>
+            </a>
           </div>
-        </div>
-
-        <aside class="hero__panel hero__panel--guide">
-          <p class="panel__eyebrow">처음엔 이렇게 쓰세요</p>
-          <ol class="guide-list">
-            <li>위 검색창에 궁금한 키워드를 입력하거나 아래 의도 버튼을 누릅니다.</li>
-            <li>월급, 시급, 가족 수 같은 핵심 값만 먼저 입력합니다.</li>
-            <li>지금 필요한 계산기만 아래 작업대에 보이도록 좁혀서 확인합니다.</li>
-          </ol>
-          <p class="panel__note">모든 계산기를 한꺼번에 보여주지 않고, 추천 흐름부터 먼저 보여주도록 바꿉니다.</p>
-        </aside>
-      </div>
-    </header>
-
-    <main>
-      <section class="section" id="profile-section">
-        <div class="section__heading">
-          <div>
-            <p class="section__eyebrow">공용 프로필</p>
-            <h2>한 번 입력하고 계산기 전체에 같이 반영하기</h2>
-          </div>
-          <p class="section__caption">긴 숫자를 여러 번 다시 넣지 않도록 공용 상태로 관리합니다.</p>
-        </div>
-
-        <div class="profile-tools">
-          <div class="preset-bar" id="preset-bar"></div>
-          <div class="profile-actions">
-            <button type="button" class="ghost-button" id="save-profile">현재 값 저장</button>
-            <button type="button" class="ghost-button" id="load-profile">저장 프로필 불러오기</button>
-            <button type="button" class="ghost-button" id="reset-profile">기본값 복원</button>
-            <p class="profile-status" id="profile-status">아직 저장된 프로필이 없습니다.</p>
-          </div>
-        </div>
-
-        <div class="profile-grid">
-          <article class="field-card">
-            <div class="field-card__header"><h3>세전 월급</h3><span>만원</span></div>
-            <div class="stepper">
-              <button type="button" class="stepper__button" data-step-field="monthlySalaryMan" data-step="-10">-10</button>
-              <input type="number" min="0" step="10" inputmode="numeric" data-input-field="monthlySalaryMan">
-              <button type="button" class="stepper__button" data-step-field="monthlySalaryMan" data-step="10">+10</button>
-            </div>
-            <div class="choice-row">
-              <button type="button" class="choice-chip" data-choice-field="monthlySalaryMan" data-value="250">250</button>
-              <button type="button" class="choice-chip" data-choice-field="monthlySalaryMan" data-value="320">320</button>
-              <button type="button" class="choice-chip" data-choice-field="monthlySalaryMan" data-value="400">400</button>
-              <button type="button" class="choice-chip" data-choice-field="monthlySalaryMan" data-value="500">500</button>
-            </div>
-          </article>
-
-          <article class="field-card">
-            <div class="field-card__header"><h3>비과세 수당</h3><span>만원</span></div>
-            <div class="stepper">
-              <button type="button" class="stepper__button" data-step-field="nonTaxableMan" data-step="-10">-10</button>
-              <input type="number" min="0" step="10" inputmode="numeric" data-input-field="nonTaxableMan">
-              <button type="button" class="stepper__button" data-step-field="nonTaxableMan" data-step="10">+10</button>
-            </div>
-            <div class="choice-row">
-              <button type="button" class="choice-chip" data-choice-field="nonTaxableMan" data-value="0">0</button>
-              <button type="button" class="choice-chip" data-choice-field="nonTaxableMan" data-value="10">10</button>
-              <button type="button" class="choice-chip" data-choice-field="nonTaxableMan" data-value="20">20</button>
-              <button type="button" class="choice-chip" data-choice-field="nonTaxableMan" data-value="30">30</button>
-            </div>
-          </article>
-
-          <article class="field-card">
-            <div class="field-card__header"><h3>부양가족 수</h3><span>본인 포함</span></div>
-            <div class="choice-row choice-row--wide">
-              <button type="button" class="choice-chip" data-choice-field="householdCount" data-value="1">1명</button>
-              <button type="button" class="choice-chip" data-choice-field="householdCount" data-value="2">2명</button>
-              <button type="button" class="choice-chip" data-choice-field="householdCount" data-value="3">3명</button>
-              <button type="button" class="choice-chip" data-choice-field="householdCount" data-value="4">4명+</button>
-            </div>
-          </article>
-
-          <article class="field-card">
-            <div class="field-card__header"><h3>자녀 수</h3><span>가족 급여 반영</span></div>
-            <div class="choice-row choice-row--wide">
-              <button type="button" class="choice-chip" data-choice-field="childCount" data-value="0">0명</button>
-              <button type="button" class="choice-chip" data-choice-field="childCount" data-value="1">1명</button>
-              <button type="button" class="choice-chip" data-choice-field="childCount" data-value="2">2명</button>
-              <button type="button" class="choice-chip" data-choice-field="childCount" data-value="3">3명+</button>
-            </div>
-          </article>
-
-          <article class="field-card">
-            <div class="field-card__header"><h3>주 근무일</h3><span>주휴 계산용</span></div>
-            <div class="choice-row choice-row--wide">
-              <button type="button" class="choice-chip" data-choice-field="workDays" data-value="3">주 3일</button>
-              <button type="button" class="choice-chip" data-choice-field="workDays" data-value="4">주 4일</button>
-              <button type="button" class="choice-chip" data-choice-field="workDays" data-value="5">주 5일</button>
-              <button type="button" class="choice-chip" data-choice-field="workDays" data-value="6">주 6일</button>
-            </div>
-          </article>
-
-          <article class="field-card">
-            <div class="field-card__header"><h3>하루 근무시간</h3><span>시간</span></div>
-            <div class="choice-row choice-row--wide">
-              <button type="button" class="choice-chip" data-choice-field="dailyHours" data-value="4">4시간</button>
-              <button type="button" class="choice-chip" data-choice-field="dailyHours" data-value="6">6시간</button>
-              <button type="button" class="choice-chip" data-choice-field="dailyHours" data-value="8">8시간</button>
-              <button type="button" class="choice-chip" data-choice-field="dailyHours" data-value="10">10시간</button>
-            </div>
-          </article>
-
-          <article class="field-card">
-            <div class="field-card__header"><h3>시급</h3><span>원</span></div>
-            <div class="stepper">
-              <button type="button" class="stepper__button" data-step-field="hourlyWage" data-step="-500">-500</button>
-              <input type="number" min="0" step="500" inputmode="numeric" data-input-field="hourlyWage">
-              <button type="button" class="stepper__button" data-step-field="hourlyWage" data-step="500">+500</button>
-            </div>
-            <div class="choice-row">
-              <button type="button" class="choice-chip" data-choice-field="hourlyWage" data-value="10320">최저</button>
-              <button type="button" class="choice-chip" data-choice-field="hourlyWage" data-value="12000">12000</button>
-              <button type="button" class="choice-chip" data-choice-field="hourlyWage" data-value="15000">15000</button>
-              <button type="button" class="choice-chip" data-choice-field="hourlyWage" data-value="20000">20000</button>
-            </div>
-          </article>
-
-          <article class="field-card">
-            <div class="field-card__header"><h3>우선지원대상기업</h3><span>출산 계열</span></div>
-            <div class="choice-row choice-row--wide">
-              <button type="button" class="choice-chip" data-choice-field="prioritySupportCompany" data-value="true">예</button>
-              <button type="button" class="choice-chip" data-choice-field="prioritySupportCompany" data-value="false">아니오</button>
-            </div>
-          </article>
-        </div>
-
-        <details class="advanced-details">
-          <summary>고급 입력 열기</summary>
-          <div class="advanced-grid">
-            <article class="advanced-card">
-            <div class="advanced-card__header"><h3>노동 이력</h3><p>퇴직금, 실업급여, 연차 계산용</p></div>
-            <div class="mini-grid">
-              <label>근속 개월<input type="number" min="1" step="1" inputmode="numeric" data-input-field="serviceMonths"></label>
-              <label>고용보험 가입 개월<input type="number" min="1" step="1" inputmode="numeric" data-input-field="unemploymentMonths"></label>
-              <label>미사용 연차<input type="number" min="0" step="1" inputmode="numeric" data-input-field="unusedLeaveDays"></label>
-            </div>
-            <div class="choice-row">
-              <button type="button" class="choice-chip" data-choice-field="olderWorker" data-value="true">50세 이상/장애인</button>
-              <button type="button" class="choice-chip" data-choice-field="olderWorker" data-value="false">일반</button>
-            </div>
-            </article>
-
-            <article class="advanced-card">
-            <div class="advanced-card__header"><h3>휴직과 단축근무</h3><p>가족 급여 계산용</p></div>
-            <div class="mini-grid">
-              <label>육아휴직 개월<input type="number" min="1" max="12" step="1" inputmode="numeric" data-input-field="parentalMonths"></label>
-              <label>단축 전 주당 시간<input type="number" min="1" step="1" inputmode="numeric" data-input-field="reducedBeforeHours"></label>
-              <label>단축 후 주당 시간<input type="number" min="1" step="1" inputmode="numeric" data-input-field="reducedAfterHours"></label>
-            </div>
-            <div class="choice-row">
-              <button type="button" class="choice-chip" data-choice-field="maternityChildren" data-value="single">단태아</button>
-              <button type="button" class="choice-chip" data-choice-field="maternityChildren" data-value="multiple">다태아</button>
-            </div>
-            </article>
-
-            <article class="advanced-card">
-            <div class="advanced-card__header"><h3>수당 시간 입력</h3><p>시간 수만 바꾸면 결과가 바로 갱신됩니다.</p></div>
-            <div class="mini-grid">
-              <label>연장근로 시간<input type="number" min="0" step="1" inputmode="numeric" data-input-field="overtimeHours"></label>
-              <label>야간근로 시간<input type="number" min="0" step="1" inputmode="numeric" data-input-field="nightHours"></label>
-              <label>휴일근로 8시간 이내<input type="number" min="0" step="1" inputmode="numeric" data-input-field="holidayHoursUnder8"></label>
-              <label>휴일근로 8시간 초과<input type="number" min="0" step="1" inputmode="numeric" data-input-field="holidayHoursOver8"></label>
-              <label>휴업 일수<input type="number" min="0" step="1" inputmode="numeric" data-input-field="shutdownDays"></label>
-            </div>
-            </article>
-          </div>
-        </details>
-
-        <div class="summary-strip">
-          <article class="summary-card"><span>연봉 환산</span><strong id="summary-annual-salary">0원</strong><p>현재 월급 기준 12개월 단순 환산</p></article>
-          <article class="summary-card"><span>월 4대보험</span><strong id="summary-insurance-total">0원</strong><p>근로자 부담분 빠른 추정</p></article>
-          <article class="summary-card"><span>월 실수령 추정</span><strong id="summary-take-home">0원</strong><p>근로소득세는 간편 추정치</p></article>
-          <article class="summary-card"><span>지금 먼저 볼 카드</span><strong id="summary-recommendation">주휴수당</strong><p id="summary-recommendation-note">프로필 기반 추천</p></article>
         </div>
       </section>
 
-      <section class="section" id="bookmark-section">
-        <div class="section__heading">
-          <div>
-            <p class="section__eyebrow">즐겨찾기</p>
-            <h2>관심 계산기와 주제를 다시 불러오기</h2>
-          </div>
-          <p class="section__caption">계산기 카드와 검색 카드의 즐겨찾기 버튼이 여기에 모입니다.</p>
+      <section class="section section--tight">
+        <div class="focus-layout">
+          <article class="recommend-card">
+            <div class="recommend-card__meta">
+              <span class="eyebrow">Recommended</span>
+              <strong>현재 입력 기준 추천</strong>
+            </div>
+            <p class="recommend-card__value" id="recommendation-value">0원</p>
+            <p class="recommend-card__note" id="recommendation-note">월급 상세 계산기로 이어서 세금과 4대보험을 더 자세히 볼 수 있습니다.</p>
+            <a class="detail-primary" id="recommendation-link" href="salary.html">
+              <span id="recommendation-link-label">월급 계산기 열기</span>
+            </a>
+          </article>
+
+          <details class="setup-accordion" id="quick-setup">
+            <summary>
+              <span>
+                <strong>내 상황 빠르게 설정</strong>
+                <small id="setup-summary">월급 320만원 · 주 5일 · 하루 8시간</small>
+              </span>
+              <span class="setup-accordion__hint">열기</span>
+            </summary>
+
+            <div class="setup-accordion__body">
+              <div class="setup-toolbar">
+                <p id="profile-status">저장된 빠른 입력 값이 없습니다.</p>
+                <div class="setup-toolbar__actions">
+                  <button type="button" class="ghost-button" id="save-profile">현재 값 저장</button>
+                  <button type="button" class="ghost-button" id="load-profile">불러오기</button>
+                  <button type="button" class="ghost-button" id="reset-profile">초기화</button>
+                </div>
+              </div>
+
+              <div class="setup-grid">
+                <article class="input-card">
+                  <div class="input-card__meta">
+                    <h3>세전 월급</h3>
+                    <span>만원</span>
+                  </div>
+                  <input type="number" min="0" step="10" inputmode="numeric" data-input-field="monthlySalaryMan">
+                  <div class="chip-row">
+                    <button type="button" class="choice-chip" data-choice-field="monthlySalaryMan" data-value="250">250</button>
+                    <button type="button" class="choice-chip" data-choice-field="monthlySalaryMan" data-value="320">320</button>
+                    <button type="button" class="choice-chip" data-choice-field="monthlySalaryMan" data-value="400">400</button>
+                  </div>
+                </article>
+
+                <article class="input-card">
+                  <div class="input-card__meta">
+                    <h3>주 근무일</h3>
+                    <span>일</span>
+                  </div>
+                  <div class="choice-grid">
+                    <button type="button" class="choice-chip" data-choice-field="workDays" data-value="3">주 3일</button>
+                    <button type="button" class="choice-chip" data-choice-field="workDays" data-value="4">주 4일</button>
+                    <button type="button" class="choice-chip" data-choice-field="workDays" data-value="5">주 5일</button>
+                    <button type="button" class="choice-chip" data-choice-field="workDays" data-value="6">주 6일</button>
+                  </div>
+                </article>
+
+                <article class="input-card">
+                  <div class="input-card__meta">
+                    <h3>하루 근무시간</h3>
+                    <span>시간</span>
+                  </div>
+                  <div class="choice-grid">
+                    <button type="button" class="choice-chip" data-choice-field="dailyHours" data-value="4">4시간</button>
+                    <button type="button" class="choice-chip" data-choice-field="dailyHours" data-value="6">6시간</button>
+                    <button type="button" class="choice-chip" data-choice-field="dailyHours" data-value="8">8시간</button>
+                    <button type="button" class="choice-chip" data-choice-field="dailyHours" data-value="10">10시간</button>
+                  </div>
+                </article>
+              </div>
+
+              <details class="advanced-accordion">
+                <summary>상세 옵션 보기</summary>
+
+                <div class="advanced-grid">
+                  <article class="input-card">
+                    <div class="input-card__meta">
+                      <h3>비과세 수당</h3>
+                      <span>만원</span>
+                    </div>
+                    <input type="number" min="0" step="10" inputmode="numeric" data-input-field="nonTaxableMan">
+                    <div class="chip-row">
+                      <button type="button" class="choice-chip" data-choice-field="nonTaxableMan" data-value="0">0</button>
+                      <button type="button" class="choice-chip" data-choice-field="nonTaxableMan" data-value="20">20</button>
+                      <button type="button" class="choice-chip" data-choice-field="nonTaxableMan" data-value="30">30</button>
+                    </div>
+                  </article>
+
+                  <article class="input-card">
+                    <div class="input-card__meta">
+                      <h3>부양가족 수</h3>
+                      <span>본인 포함</span>
+                    </div>
+                    <div class="choice-grid">
+                      <button type="button" class="choice-chip" data-choice-field="householdCount" data-value="1">1명</button>
+                      <button type="button" class="choice-chip" data-choice-field="householdCount" data-value="2">2명</button>
+                      <button type="button" class="choice-chip" data-choice-field="householdCount" data-value="3">3명</button>
+                      <button type="button" class="choice-chip" data-choice-field="householdCount" data-value="4">4명+</button>
+                    </div>
+                  </article>
+
+                  <article class="input-card">
+                    <div class="input-card__meta">
+                      <h3>자녀 수</h3>
+                      <span>가족 급여 반영</span>
+                    </div>
+                    <div class="choice-grid">
+                      <button type="button" class="choice-chip" data-choice-field="childCount" data-value="0">0명</button>
+                      <button type="button" class="choice-chip" data-choice-field="childCount" data-value="1">1명</button>
+                      <button type="button" class="choice-chip" data-choice-field="childCount" data-value="2">2명</button>
+                      <button type="button" class="choice-chip" data-choice-field="childCount" data-value="3">3명+</button>
+                    </div>
+                  </article>
+                </div>
+              </details>
+            </div>
+          </details>
         </div>
-        <div class="bookmark-strip" id="bookmark-strip"></div>
       </section>
 
-      <section class="section" id="eligibility-section">
-        <div class="section__heading">
+      <section class="section" id="calculators-section">
+        <div class="section__head">
           <div>
-            <p class="section__eyebrow">자격 체크</p>
-            <h2>신청 전에 가장 많이 막히는 조건 먼저 보기</h2>
+            <span class="eyebrow">Core Calculators</span>
+            <h2>대표 계산기</h2>
           </div>
-          <p class="section__caption">가능성 높음과 추가 확인 필요를 빠르게 나눠보는 구간입니다.</p>
+          <a class="text-link" href="#results-section">전체 계산기 보기</a>
         </div>
+        <p class="section__caption">홈에서는 가볍게 고르고, 자세한 계산은 각 계산기 페이지에서 이어집니다.</p>
 
-        <div class="check-grid">
-          <article class="check-card">
-            <h3>피보험 단위기간 180일</h3>
-            <div class="choice-row choice-row--wide">
-              <button type="button" class="choice-chip" data-choice-field="insuranceDaysReady" data-value="true">충족</button>
-              <button type="button" class="choice-chip" data-choice-field="insuranceDaysReady" data-value="false">모름/미충족</button>
-            </div>
-          </article>
-          <article class="check-card">
-            <h3>비자발적 이직</h3>
-            <div class="choice-row choice-row--wide">
-              <button type="button" class="choice-chip" data-choice-field="involuntaryExit" data-value="true">예</button>
-              <button type="button" class="choice-chip" data-choice-field="involuntaryExit" data-value="false">아니오</button>
-            </div>
-          </article>
-          <article class="check-card">
-            <h3>재취업 활동 가능</h3>
-            <div class="choice-row choice-row--wide">
-              <button type="button" class="choice-chip" data-choice-field="jobSeekingReady" data-value="true">예</button>
-              <button type="button" class="choice-chip" data-choice-field="jobSeekingReady" data-value="false">아니오</button>
-            </div>
-          </article>
-          <article class="check-card">
-            <h3>소정근로일 개근</h3>
-            <div class="choice-row choice-row--wide">
-              <button type="button" class="choice-chip" data-choice-field="fullAttendance" data-value="true">예</button>
-              <button type="button" class="choice-chip" data-choice-field="fullAttendance" data-value="false">아니오</button>
-            </div>
-          </article>
-          <article class="check-card">
-            <h3>자녀 연령 조건</h3>
-            <div class="choice-row choice-row--wide">
-              <button type="button" class="choice-chip" data-choice-field="childAgeEligible" data-value="true">대상</button>
-              <button type="button" class="choice-chip" data-choice-field="childAgeEligible" data-value="false">아님/모름</button>
-            </div>
-          </article>
+        <div class="calculator-grid">
+          <a class="feature-card" href="salary.html">
+            <span class="feature-card__kicker">월급</span>
+            <h3>월급 실수령액</h3>
+            <p>월급, 4대보험, 간편 세금 추정치를 한 화면에서 확인</p>
+            <span class="feature-card__link">계산 시작</span>
+          </a>
+
+          <a class="feature-card" href="unemployment.html">
+            <span class="feature-card__kicker">지원금</span>
+            <h3>실업급여</h3>
+            <p>이직 사유와 가입 기간을 바탕으로 자격과 급여 범위를 먼저 확인</p>
+            <span class="feature-card__link">계산 시작</span>
+          </a>
+
+          <a class="feature-card" href="severance.html">
+            <span class="feature-card__kicker">퇴사</span>
+            <h3>퇴직금</h3>
+            <p>퇴직금, 연차수당, 휴업수당을 퇴사 정산 흐름으로 묶어서 보기</p>
+            <span class="feature-card__link">계산 시작</span>
+          </a>
+
+          <a class="feature-card" href="family.html">
+            <span class="feature-card__kicker">가족</span>
+            <h3>육아·출산 급여</h3>
+            <p>육아휴직, 단축근무, 출산휴가, 배우자 출산휴가를 한 번에 확인</p>
+            <span class="feature-card__link">계산 시작</span>
+          </a>
         </div>
-
-        <div class="eligibility-results" id="eligibility-results"></div>
-      </section>
-
-      <section class="section" id="calculator-section">
-        <div class="section__heading">
-          <div>
-            <p class="section__eyebrow">계산기 센터</p>
-            <h2>1차와 2차 범위를 묶은 라이브 계산기 묶음</h2>
-          </div>
-          <p class="section__caption">추천 작업대부터 보여주고, 나머지는 탭으로 좁혀서 보도록 바꿉니다.</p>
-        </div>
-        <div class="calc-toolbar" id="calc-toolbar"></div>
-        <p class="calc-stage-copy" id="calc-stage-copy"></p>
-        <div class="calculator-board" id="calculator-board"></div>
       </section>
 
       <section class="section" id="results-section">
-        <div class="section__heading">
+        <div class="section__head">
           <div>
-            <p class="section__eyebrow">주제 검색</p>
-            <h2>검색과 계산기를 한 흐름으로 묶은 결과 카드</h2>
+            <span class="eyebrow">Search Topics</span>
+            <h2>많이 찾는 주제</h2>
           </div>
-          <p class="section__caption">공식 링크와 관련 계산기를 같이 배치해 체류시간과 재방문을 늘리는 구조입니다.</p>
+          <button type="button" class="text-button" data-intent-search="근로장려금">지원금부터 찾기</button>
         </div>
-        <div class="filter-row" id="category-filters"></div>
-        <p class="results-caption" id="results-caption"></p>
-        <div class="results-list" id="results-list"></div>
+        <div class="compact-toolbar" id="category-filters"></div>
+        <p class="results-status" id="results-status"></p>
+        <div class="topic-grid" id="results-list"></div>
       </section>
 
-      <section class="section" id="support-section">
-        <div class="section__heading">
-          <div>
-            <p class="section__eyebrow">공식 포털</p>
-            <h2>전국 공용 포털과 지역 청년 포털을 같이 묶기</h2>
-          </div>
-          <p class="section__caption">대표 포털을 먼저 묶고 세부 공고는 각 카드에서 확인하게 했습니다.</p>
-        </div>
-        <div class="support-grid" id="support-grid"></div>
-      </section>
+      <section class="section section--utility">
+        <div class="utility-grid">
+          <article class="utility-panel">
+            <span class="eyebrow">Official</span>
+            <h2>공식 사이트 바로가기</h2>
+            <ul class="link-list">
+              <li><a href="https://www.work24.go.kr/" target="_blank" rel="noreferrer">고용24</a><span>실업급여와 고용서비스 확인</span></li>
+              <li><a href="https://www.bokjiro.go.kr/ssis-tbu/" target="_blank" rel="noreferrer">복지로</a><span>가족 급여와 복지서비스 신청 흐름</span></li>
+              <li><a href="https://www.youthcenter.go.kr/" target="_blank" rel="noreferrer">온통청년</a><span>청년 정책과 지자체 공고 확인</span></li>
+            </ul>
+          </article>
 
-      <section class="section" id="calendar-section">
-        <div class="section__heading">
-          <div>
-            <p class="section__eyebrow">2차 기능</p>
-            <h2>마감 캘린더와 변경 포인트를 같이 보는 운영 섹션</h2>
-          </div>
-          <p class="section__caption">정확한 접수일은 매년 달라질 수 있으므로 시즌별 점검 시기로 정리했습니다.</p>
-        </div>
-        <div class="split-grid">
-          <div><h3 class="mini-heading">점검 캘린더</h3><div class="calendar-grid" id="calendar-grid"></div></div>
-          <div><h3 class="mini-heading">최근 기준 카드</h3><div class="update-grid" id="update-grid"></div></div>
-        </div>
-      </section>
-
-      <section class="section" id="roadmap-section">
-        <div class="section__heading">
-          <div>
-            <p class="section__eyebrow">다음 차수</p>
-            <h2>세금 심화 계산기 대기열</h2>
-          </div>
-          <p class="section__caption">생활형 계산기를 먼저 올리고 상세 세금 계산기는 별도 페이지로 분리할 예정입니다.</p>
-        </div>
-        <div class="catalog-grid" id="catalog-grid"></div>
-      </section>
-
-      <section class="section" id="source-section">
-        <div class="section__heading">
-          <div>
-            <p class="section__eyebrow">출처와 수익화</p>
-            <h2>공식 근거 카드와 광고 레이아웃 자리까지 같이 설계하기</h2>
-          </div>
-          <p class="section__caption">광고는 나중에 붙이더라도 콘텐츠보다 앞서지 않게 위치만 설계해 둡니다.</p>
-        </div>
-        <div class="source-layout">
-          <div class="source-panel">
-            <h3>공식 근거 카드</h3>
-            <div class="source-panel__box" id="source-list"></div>
-          </div>
-          <div class="ad-preview">
-            <div class="ad-slot"><span>Ad Slot A</span><strong>검색 결과 사이 배너</strong><p>설명 카드 사이에 자연스럽게 배치</p></div>
-            <div class="ad-slot"><span>Ad Slot B</span><strong>계산기 하단 추천형</strong><p>제휴 링크나 추천 카드용 자리</p></div>
-          </div>
+          <article class="utility-panel">
+            <span class="eyebrow">Season</span>
+            <h2>이번 시즌 체크할 것</h2>
+            <ul class="season-list">
+              <li><strong>1~2월</strong><span>연말정산 자료 제출과 소득공제 확인</span></li>
+              <li><strong>매월</strong><span>실업급여와 육아 계열 급여 신청 일정 점검</span></li>
+              <li><strong>5월</strong><span>종합소득세 신고 시즌과 필요 서류 확인</span></li>
+            </ul>
+          </article>
         </div>
       </section>
     </main>
 
     <footer class="footer">
-      <p>실제 신청·신고 전에는 카드 안의 공식 링크에서 최신 기준을 다시 확인하세요.</p>
+      <p>실제 신청과 신고 전에는 각 계산기 페이지의 공식 링크에서 최신 기준을 다시 확인하세요.</p>
       <a href="#top">맨 위로</a>
     </footer>
   </div>
 
+  <script src="calculator-core.js"></script>
   <script src="script.js"></script>
 </body>
 </html>

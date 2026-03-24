@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>내돈백과 | 육아·출산 급여 계산기</title>
+  <meta name="description" content="육아휴직, 근로시간 단축, 출산휴가, 배우자 출산휴가 급여를 한 화면에서 계산합니다.">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="detail-page" data-page="family">
+  <div class="app-shell" id="top">
+    <header class="topbar">
+      <a class="brand" href="index.html">
+        <span class="brand__mark">M</span>
+        <span class="brand__text">
+          <strong>내돈백과</strong>
+          <small>Money Encyclopedia</small>
+        </span>
+      </a>
+
+      <nav class="topbar__nav">
+        <a href="index.html">홈</a>
+        <a href="salary.html">월급</a>
+        <a href="unemployment.html">실업급여</a>
+        <a href="severance.html">퇴직 정산</a>
+        <a href="overtime.html">수당 계산</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="detail-hero">
+        <span class="eyebrow" id="page-kicker"></span>
+        <h1 id="page-title"></h1>
+        <p id="page-summary"></p>
+        <div class="detail-link-row" id="hero-links"></div>
+      </section>
+
+      <div class="detail-layout">
+        <aside class="detail-sidebar">
+          <article class="note-card">
+            <h2>이렇게 입력하세요</h2>
+            <ol id="page-steps"></ol>
+          </article>
+
+          <article class="note-card">
+            <h2>공식 바로가기</h2>
+            <div class="detail-link-row" id="official-links"></div>
+          </article>
+        </aside>
+
+        <section class="detail-main">
+          <div class="detail-main__toolbar">
+            <p id="toolbar-summary"></p>
+            <div class="detail-link-row">
+              <a class="detail-link" href="#fields">입력으로 이동</a>
+            </div>
+          </div>
+
+          <div class="detail-field-grid" id="fields"></div>
+          <div class="detail-result-stack" id="results"></div>
+        </section>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <p>가족 급여는 자녀 연령과 사업장 구분, 고용보험 요건을 공식 사이트에서 다시 확인하세요.</p>
+      <a href="#top">맨 위로</a>
+    </footer>
+  </div>
+
+  <script src="calculator-core.js"></script>
+  <script src="detail-pages.js"></script>
+</body>
+</html>
