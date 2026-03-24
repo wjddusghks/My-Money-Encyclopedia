@@ -47,6 +47,24 @@
 
           <div class="suggestion-list" id="search-suggestions"></div>
           <div class="quick-tags" id="quick-tags"></div>
+          <div class="intent-grid" id="intent-grid">
+            <button type="button" class="intent-card" data-intent="take-home">
+              <strong>월급이 궁금해요</strong>
+              <span>실수령액, 4대보험, 시급 변환</span>
+            </button>
+            <button type="button" class="intent-card" data-intent="quit">
+              <strong>퇴사 준비 중이에요</strong>
+              <span>퇴직금, 연차수당, 휴업수당</span>
+            </button>
+            <button type="button" class="intent-card" data-intent="family">
+              <strong>육아·출산이 궁금해요</strong>
+              <span>육아휴직, 출산휴가, 배우자 휴가</span>
+            </button>
+            <button type="button" class="intent-card" data-intent="aid">
+              <strong>지원금을 찾고 싶어요</strong>
+              <span>실업급여, 근로장려금, 청년정책</span>
+            </button>
+          </div>
 
           <div class="hero__stats">
             <article>
@@ -68,18 +86,14 @@
           </div>
         </div>
 
-        <aside class="hero__panel">
-          <p class="panel__eyebrow">이번 확장 포인트</p>
-          <ul class="trend-list">
-            <li>프로필 저장, 북마크, 자격 체크를 한 화면에서 묶었습니다.</li>
-            <li>최저임금, 수당, 휴업수당, 배우자 출산휴가 등 계산기를 늘렸습니다.</li>
-            <li>검색 결과 카드에서 관련 계산기로 바로 점프할 수 있습니다.</li>
-            <li>공식 포털과 시즌별 체크 캘린더를 함께 배치했습니다.</li>
-          </ul>
-          <p class="panel__note">
-            세금과 급여는 간편 추정용 카드가 먼저 보이고, 실제 신청 전에는 공식 링크에서 최신 기준을 반드시
-            다시 확인하도록 안내합니다.
-          </p>
+        <aside class="hero__panel hero__panel--guide">
+          <p class="panel__eyebrow">처음엔 이렇게 쓰세요</p>
+          <ol class="guide-list">
+            <li>위 검색창에 궁금한 키워드를 입력하거나 아래 의도 버튼을 누릅니다.</li>
+            <li>월급, 시급, 가족 수 같은 핵심 값만 먼저 입력합니다.</li>
+            <li>지금 필요한 계산기만 아래 작업대에 보이도록 좁혀서 확인합니다.</li>
+          </ol>
+          <p class="panel__note">모든 계산기를 한꺼번에 보여주지 않고, 추천 흐름부터 먼저 보여주도록 바꿉니다.</p>
         </aside>
       </div>
     </header>
@@ -199,8 +213,10 @@
           </article>
         </div>
 
-        <div class="advanced-grid">
-          <article class="advanced-card">
+        <details class="advanced-details">
+          <summary>고급 입력 열기</summary>
+          <div class="advanced-grid">
+            <article class="advanced-card">
             <div class="advanced-card__header"><h3>노동 이력</h3><p>퇴직금, 실업급여, 연차 계산용</p></div>
             <div class="mini-grid">
               <label>근속 개월<input type="number" min="1" step="1" inputmode="numeric" data-input-field="serviceMonths"></label>
@@ -211,9 +227,9 @@
               <button type="button" class="choice-chip" data-choice-field="olderWorker" data-value="true">50세 이상/장애인</button>
               <button type="button" class="choice-chip" data-choice-field="olderWorker" data-value="false">일반</button>
             </div>
-          </article>
+            </article>
 
-          <article class="advanced-card">
+            <article class="advanced-card">
             <div class="advanced-card__header"><h3>휴직과 단축근무</h3><p>가족 급여 계산용</p></div>
             <div class="mini-grid">
               <label>육아휴직 개월<input type="number" min="1" max="12" step="1" inputmode="numeric" data-input-field="parentalMonths"></label>
@@ -224,9 +240,9 @@
               <button type="button" class="choice-chip" data-choice-field="maternityChildren" data-value="single">단태아</button>
               <button type="button" class="choice-chip" data-choice-field="maternityChildren" data-value="multiple">다태아</button>
             </div>
-          </article>
+            </article>
 
-          <article class="advanced-card">
+            <article class="advanced-card">
             <div class="advanced-card__header"><h3>수당 시간 입력</h3><p>시간 수만 바꾸면 결과가 바로 갱신됩니다.</p></div>
             <div class="mini-grid">
               <label>연장근로 시간<input type="number" min="0" step="1" inputmode="numeric" data-input-field="overtimeHours"></label>
@@ -235,8 +251,9 @@
               <label>휴일근로 8시간 초과<input type="number" min="0" step="1" inputmode="numeric" data-input-field="holidayHoursOver8"></label>
               <label>휴업 일수<input type="number" min="0" step="1" inputmode="numeric" data-input-field="shutdownDays"></label>
             </div>
-          </article>
-        </div>
+            </article>
+          </div>
+        </details>
 
         <div class="summary-strip">
           <article class="summary-card"><span>연봉 환산</span><strong id="summary-annual-salary">0원</strong><p>현재 월급 기준 12개월 단순 환산</p></article>
@@ -313,8 +330,10 @@
             <p class="section__eyebrow">계산기 센터</p>
             <h2>1차와 2차 범위를 묶은 라이브 계산기 묶음</h2>
           </div>
-          <p class="section__caption">생활형 반복 수요가 큰 계산기부터 우선 라이브로 올렸습니다.</p>
+          <p class="section__caption">추천 작업대부터 보여주고, 나머지는 탭으로 좁혀서 보도록 바꿉니다.</p>
         </div>
+        <div class="calc-toolbar" id="calc-toolbar"></div>
+        <p class="calc-stage-copy" id="calc-stage-copy"></p>
         <div class="calculator-board" id="calculator-board"></div>
       </section>
 

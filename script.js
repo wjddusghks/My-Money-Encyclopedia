@@ -12,6 +12,14 @@ const NON_INSURED_BIRTH_ALLOWANCE = 1500000;
 
 const categories = ["전체", "지원금", "월급·노동", "세금", "가족", "청년", "4대보험"];
 const quickKeywords = ["실업급여", "근로장려금", "주휴수당", "퇴직금", "육아휴직급여", "출산휴가급여", "최저임금"];
+const calcCategories = ["추천", "월급·시급", "퇴사·노동", "가족", "지원금", "전체"];
+const featuredResourceIds = ["net-salary", "unemployment-guide", "holiday-guide", "parental-guide", "severance-guide", "earned-credit"];
+const intentMap = {
+  "take-home": { query: "실수령액", calcCategory: "월급·시급", category: "세금", scroll: "calculator-section" },
+  "quit": { query: "퇴직금", calcCategory: "퇴사·노동", category: "월급·노동", scroll: "calculator-section" },
+  "family": { query: "육아휴직급여", calcCategory: "가족", category: "가족", scroll: "calculator-section" },
+  "aid": { query: "실업급여", calcCategory: "지원금", category: "지원금", scroll: "results-section" }
+};
 
 const calculators = [
   { id: "salary-brief", title: "월급 브리핑", tag: "빠른 추정", lead: "월 실수령 추정과 연봉 환산을 먼저 보여줍니다.", sourceLabel: "국세청 안내", sourceUrl: "https://www.nts.go.kr", spotlight: true },
@@ -129,7 +137,7 @@ const defaults = {
 const calculatorTitleMap = new Map(calculators.map((item) => [item.id, item.title]));
 const resourceTitleMap = new Map(resources.map((item) => [item.id, item.title]));
 const state = loadState();
-const searchState = { query: "", category: "전체" };
+const searchState = { query: "", category: "전체", calcCategory: "추천" };
 
 const searchInput = document.querySelector("#search-input");
 const quickTagsNode = document.querySelector("#quick-tags");
@@ -143,6 +151,8 @@ const presetBarNode = document.querySelector("#preset-bar");
 const profileStatusNode = document.querySelector("#profile-status");
 const eligibilityResultsNode = document.querySelector("#eligibility-results");
 const calculatorBoardNode = document.querySelector("#calculator-board");
+const calcToolbarNode = document.querySelector("#calc-toolbar");
+const calcStageCopyNode = document.querySelector("#calc-stage-copy");
 const supportGridNode = document.querySelector("#support-grid");
 const calendarGridNode = document.querySelector("#calendar-grid");
 const updateGridNode = document.querySelector("#update-grid");
@@ -350,7 +360,9 @@ function toggleBookmark(type, id) {
 }
 
 function renderBoxes(containerId, items) {
-  document.getElementById(containerId).innerHTML = items.map((item) => `
+  const node = document.getElementById(containerId);
+  if (!node) return;
+  node.innerHTML = items.map((item) => `
     <article class="result-box${item.variant ? ` result-box--${item.variant}` : ""}">
       <span>${item.label}</span>
       <strong>${item.value}</strong>
@@ -360,9 +372,57 @@ function renderBoxes(containerId, items) {
   `).join("");
 }
 
+function setText(id, text) {
+  const node = document.getElementById(id);
+  if (node) node.textContent = text;
+}
+
+function calculatorGroup(id) {
+  if (["salary-brief", "insurance", "minimum-wage", "converter"].includes(id)) return "월급·시급";
+  if (["holiday", "overtime", "severance", "leave-allowance", "shutdown"].includes(id)) return "퇴사·노동";
+  if (["parental", "reduced-hours", "maternity", "spouse-leave", "non-insured-birth"].includes(id)) return "가족";
+  if (["unemployment"].includes(id)) return "지원금";
+  return "전체";
+}
+
+function recommendedCalculatorIds() {
+  const picks = ["salary-brief", "insurance", "holiday", "unemployment", "severance"];
+  if (state.childCount > 0 || searchState.category === "가족") picks.splice(3, 0, "parental");
+  else picks.splice(3, 0, "minimum-wage");
+  return picks;
+}
+
+function getVisibleCalculators() {
+  if (searchState.calcCategory === "전체") return calculators;
+  if (searchState.calcCategory === "추천") {
+    const ids = new Set(recommendedCalculatorIds());
+    return calculators.filter((card) => ids.has(card.id));
+  }
+  return calculators.filter((card) => calculatorGroup(card.id) === searchState.calcCategory);
+}
+
+function stageCopy() {
+  if (searchState.calcCategory === "추천") return "지금 가장 많이 쓰는 계산기만 먼저 보여줍니다.";
+  if (searchState.calcCategory === "월급·시급") return "월급, 시급, 실수령액처럼 첫 방문자가 가장 먼저 보는 계산기 묶음입니다.";
+  if (searchState.calcCategory === "퇴사·노동") return "퇴직금, 연차수당, 수당 계산처럼 퇴사와 노동 정산에 가까운 카드만 모았습니다.";
+  if (searchState.calcCategory === "가족") return "육아휴직, 출산휴가, 배우자 출산휴가처럼 가족 급여 계산기만 모았습니다.";
+  if (searchState.calcCategory === "지원금") return "실업급여와 지원금 탐색 흐름에 가까운 카드만 먼저 보여줍니다.";
+  return "전체 계산기를 한 번에 보되, 먼저 검색이나 의도 버튼으로 좁혀서 보는 편이 더 편합니다.";
+}
+
+function renderCalcToolbar() {
+  calcToolbarNode.innerHTML = calcCategories.map((category) => `
+    <button type="button" class="choice-chip ${searchState.calcCategory === category ? "is-active" : ""}" data-calc-category="${category}">
+      ${category}
+    </button>
+  `).join("");
+  calcStageCopyNode.textContent = stageCopy();
+}
+
 function renderCalculatorBoard() {
-  calculatorBoardNode.innerHTML = calculators.map((card) => `
-    <article class="calc-card${card.spotlight ? " calc-card--spotlight" : ""}" id="calc-${card.id}">
+  const visible = getVisibleCalculators();
+  calculatorBoardNode.innerHTML = visible.map((card, index) => `
+    <article class="calc-card${(card.spotlight && searchState.calcCategory !== "전체") || index === 0 ? " calc-card--spotlight" : ""}" id="calc-${card.id}">
       <div class="calc-card__header">
         <div><p class="section__eyebrow">${card.tag}</p><h3>${card.title}</h3></div>
         <button type="button" class="bookmark-toggle${isBookmarked("calculators", card.id) ? " is-active" : ""}" data-toggle-calculator="${card.id}">${isBookmarked("calculators", card.id) ? "즐겨찾기됨" : "즐겨찾기"}</button>
@@ -441,14 +501,19 @@ function renderSuggestions() {
 }
 
 function renderResults() {
-  const filtered = resources.filter((item) => (searchState.category === "전체" || item.category === searchState.category) && matchesQuery(item, searchState.query.trim().toLowerCase()));
-  resultsCaptionNode.textContent = `${searchState.category} 범위에서 ${filtered.length}개 주제를 찾았습니다.`;
+  const browsingMode = !searchState.query && searchState.category === "전체";
+  const filtered = browsingMode
+    ? resources.filter((item) => featuredResourceIds.includes(item.id))
+    : resources.filter((item) => (searchState.category === "전체" || item.category === searchState.category) && matchesQuery(item, searchState.query.trim().toLowerCase()));
+  resultsCaptionNode.textContent = browsingMode
+    ? "많이 찾는 대표 주제만 먼저 보여줍니다. 검색하면 더 자세하게 좁혀집니다."
+    : `${searchState.category} 범위에서 ${filtered.length}개 주제를 찾았습니다.`;
   if (filtered.length === 0) {
     resultsNode.innerHTML = `<article class="result-card"><h3>다른 키워드로 다시 찾아보세요.</h3><p class="result-card__summary">예: 실업급여, 근로장려금, 주휴수당, 최저임금</p></article>`;
     return;
   }
   resultsNode.innerHTML = filtered.map((item) => `
-    <article class="result-card" id="topic-${item.id}">
+    <article class="result-card${browsingMode ? " is-compact" : ""}" id="topic-${item.id}">
       <div class="result-card__meta">
         <span class="result-card__category">${item.category}</span>
         <span class="result-pill">${item.audience}</span>
@@ -460,11 +525,11 @@ function renderResults() {
         </button>
       </div>
       <p class="result-card__summary">${item.summary}</p>
-      <ul class="result-card__highlights">${item.highlights.map((line) => `<li>${line}</li>`).join("")}</ul>
+      <ul class="result-card__highlights">${item.highlights.slice(0, browsingMode ? 1 : 3).map((line) => `<li>${line}</li>`).join("")}</ul>
       <div class="result-card__tags">${item.tags.map((tag) => `<span class="result-pill">#${tag}</span>`).join("")}</div>
       <div class="result-card__calc-links">${item.calculatorIds.map((id) => `<button type="button" class="calculator-link" data-scroll-target="calc-${id}">${calculatorTitleMap.get(id)}</button>`).join("")}</div>
       <div class="result-card__actions">
-        <span class="result-card__summary">실제 신청 전에는 공식 공고를 다시 확인하세요.</span>
+        <span class="result-card__summary">${browsingMode ? "계산기로 바로 이동하거나 검색을 더 좁혀보세요." : "실제 신청 전에는 공식 공고를 다시 확인하세요."}</span>
         <a href="${item.sourceUrl}" target="_blank" rel="noreferrer">${item.sourceLabel}</a>
       </div>
     </article>
@@ -719,6 +784,7 @@ function renderAll() {
   renderProfileStatus();
   renderEligibility();
   renderSummaries();
+  renderCalcToolbar();
   renderCalculatorBoard();
   renderCalculations();
   saveState();
@@ -731,6 +797,8 @@ function scrollToTarget(id) {
 document.querySelector("#search-form").addEventListener("submit", (event) => {
   event.preventDefault();
   searchState.query = searchInput.value.trim();
+  searchState.category = "전체";
+  searchState.calcCategory = "추천";
   renderAll();
 });
 
@@ -768,21 +836,41 @@ document.querySelectorAll("[data-step-field]").forEach((button) => {
 document.addEventListener("click", (event) => {
   const presetButton = event.target.closest("[data-apply-preset]");
   if (presetButton) return applyPreset(presetButton.dataset.applyPreset);
+  const intentButton = event.target.closest("[data-intent]");
+  if (intentButton) {
+    const intent = intentMap[intentButton.dataset.intent];
+    if (!intent) return;
+    searchState.query = intent.query;
+    searchState.category = intent.category;
+    searchState.calcCategory = intent.calcCategory;
+    searchInput.value = searchState.query;
+    renderAll();
+    return scrollToTarget(intent.scroll);
+  }
   const tagButton = event.target.closest("[data-search-tag]");
   if (tagButton) {
     searchState.query = tagButton.dataset.searchTag;
     searchInput.value = searchState.query;
+    searchState.category = "전체";
+    searchState.calcCategory = "추천";
     return renderAll();
   }
   const suggestionButton = event.target.closest("[data-suggestion]");
   if (suggestionButton) {
     searchState.query = suggestionButton.dataset.suggestion;
     searchInput.value = searchState.query;
+    searchState.category = "전체";
+    searchState.calcCategory = "추천";
     return renderAll();
   }
   const categoryButton = event.target.closest("[data-filter-category]");
   if (categoryButton) {
     searchState.category = categoryButton.dataset.filterCategory;
+    return renderAll();
+  }
+  const calcCategoryButton = event.target.closest("[data-calc-category]");
+  if (calcCategoryButton) {
+    searchState.calcCategory = calcCategoryButton.dataset.calcCategory;
     return renderAll();
   }
   const resourceButton = event.target.closest("[data-toggle-resource]");
